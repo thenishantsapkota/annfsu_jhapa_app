@@ -1,8 +1,11 @@
+import 'package:annfsu_app/l10n/app_localizations.dart';
 import 'package:annfsu_app/utils/constants.dart';
 import 'package:annfsu_app/view/splash.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:annfsu_app/generated/l10n.dart'; // Generated localization file
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +23,14 @@ class App extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.fade,
+        supportedLocales: const [Locale("en", "US"), Locale("ne", "NP")],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          AppLocalizationsDelegate()
+        ],
+        locale: const Locale("en", "US"),
         theme: ThemeData(
           fontFamily: 'Inter',
           textTheme: const TextTheme(

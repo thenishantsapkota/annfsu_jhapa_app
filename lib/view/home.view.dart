@@ -1,22 +1,21 @@
-// ignore_for_file: avoid_print
-
 import 'dart:async';
+import 'package:annfsu_app/utils/constants.dart';
+import 'package:annfsu_app/utils/snackbar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:annfsu_app/models/auth/profile.model.dart';
 import 'package:annfsu_app/services/auth.service.dart';
-import 'package:annfsu_app/utils/constants.dart';
 import 'package:annfsu_app/utils/dialog.dart';
 import 'package:annfsu_app/utils/global.colors.dart';
-import 'package:annfsu_app/utils/snackbar.dart';
+import 'package:annfsu_app/widgets/profile.widget.dart';
+import 'package:annfsu_app/widgets/spinner.widget.dart';
 import 'package:annfsu_app/view/auth/login.view.dart';
 import 'package:annfsu_app/view/members/members.view.dart';
 import 'package:annfsu_app/view/profile.view.dart';
-import 'package:annfsu_app/widgets/profile.widget.dart';
-import 'package:annfsu_app/widgets/spinner.widget.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
+import 'package:annfsu_app/l10n/app_localizations.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -48,9 +47,13 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    // Access localized strings
+    final localizedStrings = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard", style: TextStyle(color: Colors.white)),
+        title: Text(localizedStrings?.dashboard ?? "Dashboard",
+            style: const TextStyle(color: Colors.white)),
         actions: [
           IconButton(
             icon: const Icon(
@@ -63,22 +66,30 @@ class HomeViewState extends State<HomeView> {
               showConfirmationDialog(
                   // ignore: use_build_context_synchronously
                   context,
-                  "Are you sure you want to logout?", () {
+                  localizedStrings?.logoutConfirmation ??
+                      "Are you sure you want to logout?", () {
                 Get.offAll(() => const LoginView());
                 pref.remove("accessToken");
-                generateSuccessSnackbar("Success", "Logged out successfully!");
+                generateSuccessSnackbar(
+                    "Success",
+                    localizedStrings?.logoutSuccess ??
+                        "Logged out successfully!");
               });
             },
           ),
         ],
         leading: IconButton(
           icon: const Icon(
-            Icons.dark_mode,
+            Icons.translate,
             color: Colors.white,
           ),
-          onPressed: () => {
-            generateErrorSnackbar(
-                "Unimplemented", "Feature not implemented yet!")
+          onPressed: () {
+            // Switch between languages
+            Locale currentLocale = Localizations.localeOf(context);
+            Locale newLocale = currentLocale.languageCode == 'en'
+                ? const Locale('ne')
+                : const Locale('en');
+            Get.updateLocale(newLocale);
           },
         ),
         elevation: 0,
@@ -110,11 +121,17 @@ class HomeViewState extends State<HomeView> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            getExpanded("profile", "Profile", "View Profile",
+                            getExpanded(
+                                "profile",
+                                localizedStrings?.viewProfile ?? "View Profile",
+                                localizedStrings?.viewProfile ?? "View Profile",
                                 () {
                               Get.to(() => const UserProfileView());
                             }),
-                            getExpanded("members", "Members", "View Members",
+                            getExpanded(
+                                "members",
+                                localizedStrings?.viewMembers ?? "View Members",
+                                localizedStrings?.viewMembers ?? "View Members",
                                 () {
                               Get.to(() => const MembersView());
                             }),
@@ -126,14 +143,26 @@ class HomeViewState extends State<HomeView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             getExpanded(
-                                "blood", "Blood Donors", "View Blood Donors",
-                                () {
-                              generateErrorSnackbar("Unimplemented",
-                                  "Feature not implemented yet!");
+                                "blood",
+                                localizedStrings?.viewBloodDonors ??
+                                    "View Blood Donors",
+                                localizedStrings?.viewBloodDonors ??
+                                    "View Blood Donors", () {
+                              generateErrorSnackbar(
+                                  localizedStrings?.unimplementedFeature ??
+                                      "Unimplemented",
+                                  localizedStrings?.unimplementedFeature ??
+                                      "Feature not implemented yet!");
                             }),
-                            getExpanded("about", "About Us", "Our Info", () {
-                              generateErrorSnackbar("Unimplemented",
-                                  "Feature not implemented yet!");
+                            getExpanded(
+                                "about",
+                                localizedStrings?.ourInfo ?? "Our Info",
+                                localizedStrings?.ourInfo ?? "Our Info", () {
+                              generateErrorSnackbar(
+                                  localizedStrings?.unimplementedFeature ??
+                                      "Unimplemented",
+                                  localizedStrings?.unimplementedFeature ??
+                                      "Feature not implemented yet!");
                             })
                           ],
                         ),

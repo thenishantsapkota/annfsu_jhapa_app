@@ -1,0 +1,14 @@
+{
+  "dashboard": "ड्यासबोर्ड",
+  "logout_confirmation": "के तपाई तपाईको खाता बाट लगआउट गर्न चाहनुहुन्छ?",
+  "logout_success": "सफलतापूर्वक लगआउट गरियो!",
+  "unimplemented_feature": "यो सुविधा लागू गरिएको छैन!",
+  "view_profile": "प्रोफाइल हेरौं",
+  "view_members": "सदस्यहरु हेरौं",
+  "view_blood_donors": "रक्त दाताहरु हेरौं",
+  "our_info": "हाम्रो जानकारी",
+  "confirmation": "पुष्टि",
+  "close_app": "के तपाई एप बन्द गर्न चाहनुहुन्छ?",
+  "no": "होइन",
+  "yes": "हो"
+}

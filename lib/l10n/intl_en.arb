@@ -1,0 +1,14 @@
+{
+  "dashboard": "Dashboard",
+  "logout_confirmation": "Are you sure you want to logout?",
+  "logout_success": "Logged out successfully!",
+  "unimplemented_feature": "Feature not implemented yet!",
+  "view_profile": "View Profile",
+  "view_members": "View Members",
+  "view_blood_donors": "View Blood Donors",
+  "our_info": "Our Info",
+  "confirmation": "Confirmation",
+  "close_app": "Do you want to close the app?",
+  "no": "No",
+  "yes": "Yes"
+}
