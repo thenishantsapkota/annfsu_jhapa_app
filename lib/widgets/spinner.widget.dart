@@ -1,3 +1,4 @@
+import 'package:annfsu_app/utils/global.colors.dart';
 import 'package:flutter/material.dart';
 
 class ModernSpinner extends StatefulWidget {
@@ -42,7 +43,7 @@ class ModernSpinnerState extends State<ModernSpinner>
             return Transform.rotate(
               angle: _controller.value * 2.0 * 3.141592653589793,
               child: CustomPaint(
-                painter: _CircularSpinnerPainter(color: widget.color),
+                painter: _CircularSpinnerPainter(color: GlobalColors.mainColor),
               ),
             );
           },
