@@ -114,23 +114,20 @@ class HomeViewState extends State<HomeView> {
                         color: Colors.transparent,
                         child: ProfileWidget(
                           firstName: _profile!.data.fullName,
-                          profilePicture: _profile!.data.profilePicture,
+                          profilePicture:
+                              _profile!.data.profilePicture.fullSize,
                         ),
                       ),
                       Expanded(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            getExpanded(
-                                "profile",
-                                localizedStrings?.viewProfile ?? "View Profile",
+                            getExpanded("profile",
                                 localizedStrings?.viewProfile ?? "View Profile",
                                 () {
                               Get.to(() => const UserProfileView());
                             }),
-                            getExpanded(
-                                "members",
-                                localizedStrings?.viewMembers ?? "View Members",
+                            getExpanded("members",
                                 localizedStrings?.viewMembers ?? "View Members",
                                 () {
                               Get.to(() => const MembersView());
@@ -145,8 +142,6 @@ class HomeViewState extends State<HomeView> {
                             getExpanded(
                                 "blood",
                                 localizedStrings?.viewBloodDonors ??
-                                    "View Blood Donors",
-                                localizedStrings?.viewBloodDonors ??
                                     "View Blood Donors", () {
                               generateErrorSnackbar(
                                   localizedStrings?.unimplementedFeature ??
@@ -154,9 +149,7 @@ class HomeViewState extends State<HomeView> {
                                   localizedStrings?.unimplementedFeature ??
                                       "Feature not implemented yet!");
                             }),
-                            getExpanded(
-                                "about",
-                                localizedStrings?.ourInfo ?? "Our Info",
+                            getExpanded("about",
                                 localizedStrings?.ourInfo ?? "Our Info", () {
                               generateErrorSnackbar(
                                   localizedStrings?.unimplementedFeature ??
@@ -164,6 +157,21 @@ class HomeViewState extends State<HomeView> {
                                   localizedStrings?.unimplementedFeature ??
                                       "Feature not implemented yet!");
                             })
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            getExpanded(
+                                "news",
+                                localizedStrings?.viewNews ?? "View News",
+                                () {}),
+                            getExpanded(
+                                "songs",
+                                localizedStrings?.viewSongs ?? "View Songs",
+                                () {}),
                           ],
                         ),
                       ),

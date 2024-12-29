@@ -10,5 +10,7 @@
   "confirmation": "Confirmation",
   "close_app": "Do you want to close the app?",
   "no": "No",
-  "yes": "Yes"
+  "yes": "Yes",
+  "view_songs": "View Songs",
+  "view_news": "View News"
 }

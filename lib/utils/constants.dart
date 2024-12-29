@@ -8,6 +8,9 @@ class ApiConstants {
   static String profileEndpoint = 'api/auth/profile/';
   static String updateProfilePictureEndpoint = 'api/auth/profile-picture/';
   static String membersEndpoint = 'api/members/';
+  static String bloodDonorsEndpoint = 'api/blood-donors/';
+  static String newsEndpoint = 'api/news/news/';
+  static String songsEndpoint = 'api/news/songs';
 
   static Future<void> setBaseUrl(String url) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,8 +38,7 @@ String titleCase(String input) {
   return words.join(' ');
 }
 
-Expanded getExpanded(
-    String image, String mainText, String subText, Function()? onTap) {
+Expanded getExpanded(String image, String mainText, Function()? onTap) {
   return Expanded(
     child: InkWell(
       onTap: onTap,
@@ -90,21 +92,10 @@ Expanded getExpanded(
 
             const SizedBox(height: 8.0),
 
-            // Sub Text
-            Text(
-              subText,
-              style: const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 12.0,
-                color: Colors.black54,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
             // Optional Action Arrow
             const SizedBox(height: 10.0),
             Icon(
-              Icons.arrow_forward_ios,
+              Icons.arrow_forward_ios_rounded,
               size: 14.0,
               color: Colors.grey.shade600,
             ),

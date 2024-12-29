@@ -35,6 +35,14 @@ class AppLocalizations {
         'View Profile';
   }
 
+  String get viewNews {
+    return _localizedValues[locale.languageCode]?["view_news"] ?? 'View News';
+  }
+
+  String get viewSongs {
+    return _localizedValues[locale.languageCode]?["view_songs"] ?? 'View Songs';
+  }
+
   String get viewMembers {
     return _localizedValues[locale.languageCode]?['view_members'] ??
         'View Members';
@@ -82,6 +90,8 @@ class AppLocalizations {
       'close_app': 'Do you want to close the app?',
       'no': 'No',
       'yes': 'Yes',
+      'view_news': "View News",
+      "view_songs": "View Songs"
     },
     'ne': {
       'dashboard': 'ड्यासबोर्ड',
@@ -96,6 +106,8 @@ class AppLocalizations {
       'close_app': 'के तपाईं एप्लिकेसन बन्द गर्न चाहनुहुन्छ?',
       'no': 'होइन',
       'yes': 'हो',
+      'view_news': 'समाचार हेर्नुहोस्',
+      'view_songs': 'गीतहरू हेर्नुहोस्'
     },
   };
 }

@@ -1,4 +1,4 @@
-import 'package:annfsu_app/models/members.model.dart';
+import 'package:annfsu_app/models/members/members.model.dart';
 import 'package:annfsu_app/services/members.service.dart';
 import 'package:annfsu_app/utils/constants.dart';
 import 'package:annfsu_app/view/auth/login.view.dart';
