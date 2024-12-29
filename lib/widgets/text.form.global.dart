@@ -9,6 +9,7 @@ class TextFormGlobal extends StatefulWidget {
     required this.obscure,
     required this.labelText,
     this.onTap,
+    this.onChanged, // Add the onChanged callback here
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -17,6 +18,7 @@ class TextFormGlobal extends StatefulWidget {
   final bool obscure;
   final String labelText;
   final Function()? onTap;
+  final ValueChanged<String>? onChanged; // Define onChanged as a callback
 
   @override
   TextFormGlobalState createState() => TextFormGlobalState();
@@ -106,6 +108,7 @@ class TextFormGlobalState extends State<TextFormGlobal> {
                     : null,
               ),
               onTap: widget.onTap,
+              onChanged: widget.onChanged, // Add the onChanged callback here
             ),
           ),
         ),

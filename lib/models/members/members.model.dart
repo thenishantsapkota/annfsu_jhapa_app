@@ -42,7 +42,7 @@ class Datum {
   String address;
   String collegeName;
   String position;
-  String? profilePicture;
+  ProfilePicture profilePicture;
 
   Datum({
     required this.id,
@@ -67,7 +67,7 @@ class Datum {
         address: json["address"],
         collegeName: json["college_name"],
         position: json["position"],
-        profilePicture: json["profile_picture"],
+        profilePicture: ProfilePicture.fromJson(json["profile_picture"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +80,34 @@ class Datum {
         "address": address,
         "college_name": collegeName,
         "position": position,
-        "profile_picture": profilePicture,
+        "profile_picture": profilePicture.toJson(),
+      };
+}
+
+class ProfilePicture {
+  String smallSquareCrop;
+  String fullSize;
+  String thumbnail;
+  String mediumSquareCrop;
+
+  ProfilePicture({
+    required this.smallSquareCrop,
+    required this.fullSize,
+    required this.thumbnail,
+    required this.mediumSquareCrop,
+  });
+
+  factory ProfilePicture.fromJson(Map<String, dynamic> json) => ProfilePicture(
+        smallSquareCrop: json["small_square_crop"],
+        fullSize: json["full_size"],
+        thumbnail: json["thumbnail"],
+        mediumSquareCrop: json["medium_square_crop"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "small_square_crop": smallSquareCrop,
+        "full_size": fullSize,
+        "thumbnail": thumbnail,
+        "medium_square_crop": mediumSquareCrop,
       };
 }

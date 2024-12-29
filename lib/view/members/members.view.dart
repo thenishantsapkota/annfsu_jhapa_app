@@ -82,9 +82,8 @@ class _MembersViewState extends State<MembersView> {
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundImage: CachedNetworkImageProvider(
-                          member.profilePicture != null &&
-                                  member.profilePicture!.isNotEmpty
-                              ? "${ApiConstants.baseUrl}${member.profilePicture}"
+                          member.profilePicture.fullSize.isNotEmpty
+                              ? "${ApiConstants.baseUrl}${member.profilePicture.fullSize}"
                               : "https://via.placeholder.com/150", // Placeholder URL
                         ), // Placeholder image
                         radius: 25,
@@ -103,7 +102,7 @@ class _MembersViewState extends State<MembersView> {
                               location: member.address,
                               bloodGroup: member.bloodGroup,
                               organization: member.collegeName,
-                              profilePicture: member.profilePicture,
+                              profilePicture: member.profilePicture.fullSize,
                             ));
                       },
                     ),

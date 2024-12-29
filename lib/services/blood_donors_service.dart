@@ -11,8 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class BloodDonorsAPIService {
   final dio.Dio _dio = dio.Dio();
 
-  Future<dynamic> getBloodDonors(String? fullName, String? bloodGroup,
-      String? address, String? location) async {
+  Future<dynamic> getBloodDonors() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var url = ApiConstants.baseUrl + ApiConstants.bloodDonorsEndpoint;
@@ -20,18 +19,12 @@ class BloodDonorsAPIService {
 
       if (accessToken == null) {
         Get.offAll(() => const LoginView());
-        return;
       }
 
-      final dio.Response response = await _dio.get(url,
-          options:
-              dio.Options(headers: {"Authorization": "Bearer $accessToken"}),
-          queryParameters: {
-            "full_name": fullName,
-            "blood_group": bloodGroup,
-            "address": address,
-            "location": location
-          });
+      final dio.Response response = await _dio.get(
+        url,
+        options: dio.Options(headers: {"Authorization": "Bearer $accessToken"}),
+      );
 
       if (response.statusCode == 200) {
         BloodDonors donors = BloodDonors.fromJson(response.data);
@@ -48,7 +41,7 @@ class BloodDonorsAPIService {
         log('DioError: ${e.message}');
       }
     } catch (e) {
-      log(e.toString());
+      log('General Error: $e');
     }
   }
 }
