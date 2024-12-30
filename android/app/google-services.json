@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "242959812349",
+    "firebase_url": "https://j-a-r-v-i-s-18bf9.firebaseio.com",
+    "project_id": "j-a-r-v-i-s-18bf9",
+    "storage_bucket": "j-a-r-v-i-s-18bf9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242959812349:android:35f9132dccccc4fa84a094",
+        "android_client_info": {
+          "package_name": "com.example.annfsu_jhapa_application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242959812349-9vgghqi1ckgd4ssd0mtlb0t241ucl2ck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsEFoFAutxeogOWjywEqGceGQpn8nxgKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242959812349-9vgghqi1ckgd4ssd0mtlb0t241ucl2ck.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

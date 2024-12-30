@@ -41,6 +41,7 @@ class HomeViewState extends State<HomeView> {
       setState(() {
         _profile = profile;
       });
+      await AuthAPIService().updateFCMToken();
     } else {
       Get.off(() => const LoginView());
     }
@@ -115,8 +116,13 @@ class HomeViewState extends State<HomeView> {
                         color: Colors.transparent,
                         child: ProfileWidget(
                           firstName: _profile!.data.fullName,
-                          profilePicture:
-                              _profile!.data.profilePicture.fullSize,
+                          // Check if profilePicture is null or empty
+                          profilePicture: _profile!.data.profilePicture !=
+                                      null &&
+                                  _profile!
+                                      .data.profilePicture!.fullSize.isNotEmpty
+                              ? _profile!.data.profilePicture!.fullSize
+                              : "https://via.placeholder.com/150", // Default image URL
                         ),
                       ),
                       Expanded(

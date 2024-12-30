@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final profile = profileFromJson(jsonString);
-
 import 'dart:convert';
 
 Profile profileFromJson(String str) => Profile.fromJson(json.decode(str));
@@ -42,7 +38,7 @@ class Data {
   String address;
   String collegeName;
   String position;
-  ProfilePicture profilePicture;
+  ProfilePicture? profilePicture; // Made ProfilePicture nullable
 
   Data({
     required this.id,
@@ -54,7 +50,7 @@ class Data {
     required this.address,
     required this.collegeName,
     required this.position,
-    required this.profilePicture,
+    this.profilePicture, // profilePicture is now nullable
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -67,7 +63,10 @@ class Data {
         address: json["address"],
         collegeName: json["college_name"],
         position: json["position"],
-        profilePicture: ProfilePicture.fromJson(json["profile_picture"]),
+        profilePicture: json["profile_picture"] != null &&
+                json["profile_picture"].isNotEmpty
+            ? ProfilePicture.fromJson(json["profile_picture"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,7 +79,7 @@ class Data {
         "address": address,
         "college_name": collegeName,
         "position": position,
-        "profile_picture": profilePicture.toJson(),
+        "profile_picture": profilePicture?.toJson(),
       };
 }
 

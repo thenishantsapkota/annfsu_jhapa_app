@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiConstants {
-  static String baseUrl = 'http://192.168.254.18:8000/';
+  static String baseUrl = 'http://107.174.249.233:9999/';
   static String loginEndpoint = 'api/auth/login/';
   static String registerEndpoint = 'api/auth/register/';
   static String profileEndpoint = 'api/auth/profile/';
   static String updateProfilePictureEndpoint = 'api/auth/profile-picture/';
   static String membersEndpoint = 'api/members/';
   static String bloodDonorsEndpoint = 'api/blood-donors/';
+  static String bloodRequestEndpoint = 'api/blood-donors/request/';
   static String newsEndpoint = 'api/news/news/';
   static String songsEndpoint = 'api/news/songs';
+  static String updateFCMTokenEndpoint = 'api/notification/update-fcm-token/';
 
   static Future<void> setBaseUrl(String url) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

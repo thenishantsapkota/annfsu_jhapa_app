@@ -7,6 +7,7 @@ import "package:dio/dio.dart" as dio;
 import 'package:annfsu_app/models/auth/auth.model.dart';
 import "package:annfsu_app/models/error.model.dart";
 import "package:annfsu_app/utils/constants.dart";
+import "package:firebase_messaging/firebase_messaging.dart";
 import "package:get/get.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -30,7 +31,6 @@ class AuthAPIService {
     } on dio.DioException catch (e) {
       if (e.response != null) {
         log('DioError Response: ${e.response?.data}');
-        return Errors.fromJson(e.response?.data ?? {});
       } else {
         log('Dio error: ${e.message}');
       }
@@ -65,7 +65,6 @@ class AuthAPIService {
     } on dio.DioException catch (e) {
       if (e.response != null) {
         log('DioError Response: ${e.response?.data}');
-        return Errors.fromJson(e.response?.data ?? {});
       } else {
         log('Dio error: ${e.message}');
       }
@@ -109,7 +108,6 @@ class AuthAPIService {
     } on dio.DioException catch (e) {
       if (e.response != null) {
         log('DioError Response: ${e.response?.data}');
-        return Errors.fromJson(e.response?.data ?? {});
       } else {
         log('Dio error: ${e.message}');
       }
@@ -135,6 +133,7 @@ class AuthAPIService {
 
       if (response.statusCode == 200) {
         Profile profile = Profile.fromJson(response.data);
+        log("The profile is $profile");
         return profile;
       } else {
         Errors errors = Errors.fromJson(response.data);
@@ -143,7 +142,6 @@ class AuthAPIService {
     } on dio.DioException catch (e) {
       if (e.response != null) {
         log('DioError Response: ${e.response?.data}');
-        return Errors.fromJson(e.response?.data ?? {});
       } else {
         log('DioError: ${e.message}');
       }
@@ -185,13 +183,47 @@ class AuthAPIService {
     } on dio.DioException catch (e) {
       if (e.response != null) {
         log('DioError Response: ${e.response?.data}');
-        return Errors.fromJson(e.response?.data ?? {});
       } else {
         log('DioError: ${e.message}');
       }
     } catch (e) {
       log("Unexpected error: $e");
-      throw Exception("Error updating profile picture: $e");
+    }
+  }
+
+  Future<dynamic> updateFCMToken() async {
+    try {
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Object? accessToken = prefs.get("accessToken");
+      await messaging.requestPermission();
+      String? token = await messaging.getToken();
+
+      String url =
+          "${ApiConstants.baseUrl}${ApiConstants.updateFCMTokenEndpoint}";
+
+      if (accessToken == null) {
+        Get.off(() => const LoginView());
+      }
+      _dio.options.headers["Authorization"] = "Bearer $accessToken";
+
+      var response = await _dio.post(
+        url,
+        data: {"fcm_token": token},
+      );
+      if (response.statusCode == 200) {
+        return Success.fromJson(response.data);
+      } else {
+        return Errors.fromJson(response.data);
+      }
+    } on dio.DioException catch (e) {
+      if (e.response != null) {
+        log('DioError Response: ${e.response?.data}');
+      } else {
+        log('DioError: ${e.message}');
+      }
+    } catch (e) {
+      log("Unexpected error: $e");
     }
   }
 }

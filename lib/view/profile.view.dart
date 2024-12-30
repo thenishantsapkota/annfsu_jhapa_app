@@ -113,10 +113,11 @@ class _UserProfileViewState extends State<UserProfileView> {
                               CircleAvatar(
                                 radius: 50,
                                 backgroundImage: CachedNetworkImageProvider(
-                                  _profile!.data.profilePicture.fullSize
-                                          .isNotEmpty
-                                      ? "${ApiConstants.baseUrl}${_profile!.data.profilePicture.fullSize}"
-                                      : "https://via.placeholder.com/150", // Placeholder URL
+                                  _profile!.data.profilePicture != null &&
+                                          _profile!.data.profilePicture!
+                                              .fullSize.isNotEmpty
+                                      ? "${ApiConstants.baseUrl}${_profile!.data.profilePicture!.fullSize}"
+                                      : "https://via.placeholder.com/150",
                                 ),
                               ),
                               Positioned(
