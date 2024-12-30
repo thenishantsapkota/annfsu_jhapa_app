@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final members = membersFromJson(jsonString);
-
 import 'dart:convert';
 
 Members membersFromJson(String str) => Members.fromJson(json.decode(str));
@@ -42,7 +38,7 @@ class Datum {
   String address;
   String collegeName;
   String position;
-  ProfilePicture profilePicture;
+  ProfilePicture? profilePicture; // profilePicture is now nullable
 
   Datum({
     required this.id,
@@ -54,7 +50,7 @@ class Datum {
     required this.address,
     required this.collegeName,
     required this.position,
-    required this.profilePicture,
+    this.profilePicture, // profilePicture is nullable
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -67,7 +63,10 @@ class Datum {
         address: json["address"],
         collegeName: json["college_name"],
         position: json["position"],
-        profilePicture: ProfilePicture.fromJson(json["profile_picture"]),
+        profilePicture: json["profile_picture"] != null
+            ? ProfilePicture.fromJson(
+                json["profile_picture"]) // Only parse if not null
+            : null, // Handle null profile_picture
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,7 +79,8 @@ class Datum {
         "address": address,
         "college_name": collegeName,
         "position": position,
-        "profile_picture": profilePicture.toJson(),
+        "profile_picture":
+            profilePicture?.toJson(), // Handle nullable profilePicture
       };
 }
 

@@ -81,11 +81,12 @@ class _MembersViewState extends State<MembersView> {
                         vertical: 10, horizontal: 16),
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                          member.profilePicture.fullSize.isNotEmpty
-                              ? "${ApiConstants.baseUrl}${member.profilePicture.fullSize}"
-                              : "https://via.placeholder.com/150", // Placeholder URL
-                        ), // Placeholder image
+                        backgroundImage: CachedNetworkImageProvider(member
+                                        .profilePicture !=
+                                    null &&
+                                member.profilePicture!.fullSize.isNotEmpty
+                            ? "${ApiConstants.baseUrl}${member.profilePicture!.fullSize}"
+                            : "https://via.placeholder.com/150"), // Placeholder image
                         radius: 25,
                       ),
                       title: Text(
@@ -102,7 +103,7 @@ class _MembersViewState extends State<MembersView> {
                               location: member.address,
                               bloodGroup: member.bloodGroup,
                               organization: member.collegeName,
-                              profilePicture: member.profilePicture.fullSize,
+                              profilePicture: member.profilePicture?.fullSize,
                             ));
                       },
                     ),
