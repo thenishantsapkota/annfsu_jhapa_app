@@ -1,3 +1,6 @@
+import 'package:annfsu_app/models/error.model.dart';
+import 'package:annfsu_app/models/success.model.dart';
+import 'package:annfsu_app/services/blood_donors_service.dart';
 import 'package:annfsu_app/utils/global.colors.dart';
 import 'package:annfsu_app/utils/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -106,9 +109,20 @@ Future<void> getBloodRequestDialog(BuildContext context) async {
                   'Submit',
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (isCompleted) {
-                    Navigator.of(context).pop();
+                    dynamic response = await BloodDonorsAPIService()
+                        .requestBlood(nameController.text, phoneController.text,
+                            bloodTypeController.text, addressController.text);
+                    if (response is Success) {
+                      generateSuccessSnackbar("Success", response.message);
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pop();
+                    } else if (response is Errors) {
+                      generateErrorSnackbar("Error", response.message);
+                      // ignore: use_build_context_synchronously
+                      Navigator.of(context).pop();
+                    }
                   } else {
                     generateErrorSnackbar(
                         "Error", "Please fill in all the fields");
