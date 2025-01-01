@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:annfsu_app/utils/constants.dart';
 import 'package:annfsu_app/utils/snackbar.dart';
 import 'package:annfsu_app/view/blood_donors/blood_donors.view.dart';
+import 'package:annfsu_app/view/team/team.view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -154,11 +155,7 @@ class HomeViewState extends State<HomeView> {
                             }),
                             getExpanded("about",
                                 localizedStrings?.ourInfo ?? "Our Info", () {
-                              generateErrorSnackbar(
-                                  localizedStrings?.unimplementedFeature ??
-                                      "Unimplemented",
-                                  localizedStrings?.unimplementedFeature ??
-                                      "Feature not implemented yet!");
+                              Get.to(() => const TeamView());
                             })
                           ],
                         ),

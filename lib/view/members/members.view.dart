@@ -99,6 +99,7 @@ class _MembersViewState extends State<MembersView> {
                               id: member.id,
                               name: member.fullName,
                               position: member.position,
+                              gender: titleCase(member.gender),
                               phoneNumber: member.contactNumber,
                               location: member.address,
                               bloodGroup: member.bloodGroup,

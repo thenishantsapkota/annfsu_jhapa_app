@@ -9,7 +9,8 @@ class TextFormGlobal extends StatefulWidget {
     required this.obscure,
     required this.labelText,
     this.onTap,
-    this.onChanged, // Add the onChanged callback here
+    this.onChanged,
+    this.validator,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -18,7 +19,8 @@ class TextFormGlobal extends StatefulWidget {
   final bool obscure;
   final String labelText;
   final Function()? onTap;
-  final ValueChanged<String>? onChanged; // Define onChanged as a callback
+  final ValueChanged<String>? onChanged;
+  final String? Function(String?)? validator;
 
   @override
   TextFormGlobalState createState() => TextFormGlobalState();
@@ -67,7 +69,7 @@ class TextFormGlobalState extends State<TextFormGlobal> {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: Colors.black.withOpacity(0.1),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
@@ -108,7 +110,8 @@ class TextFormGlobalState extends State<TextFormGlobal> {
                     : null,
               ),
               onTap: widget.onTap,
-              onChanged: widget.onChanged, // Add the onChanged callback here
+              onChanged: widget.onChanged,
+              validator: widget.validator, // Use validator here
             ),
           ),
         ),

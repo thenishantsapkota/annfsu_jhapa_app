@@ -103,6 +103,12 @@ class _RegisterViewState extends State<RegisterView> {
                           obscure: false,
                           text: "Full Name",
                           textInputType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Full name is required";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormGlobal(
@@ -111,6 +117,16 @@ class _RegisterViewState extends State<RegisterView> {
                           obscure: false,
                           text: 'Email',
                           textInputType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Email is required.";
+                            }
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
+                              return "Enter a valid email address.";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormGlobal(
@@ -119,6 +135,15 @@ class _RegisterViewState extends State<RegisterView> {
                           obscure: true,
                           text: 'Password',
                           textInputType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Password is required.";
+                            }
+                            if (value.length < 6) {
+                              return "Password must be at least 6 characters long.";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 30),
                         const Text(
@@ -163,6 +188,12 @@ class _RegisterViewState extends State<RegisterView> {
                                 ),
                               );
                             }).toList(),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Blood Group is required.";
+                              }
+                              return null;
+                            },
                             onChanged: (value) {
                               setState(() {
                                 selectedBloodGroup = value;
@@ -205,6 +236,12 @@ class _RegisterViewState extends State<RegisterView> {
                                 ),
                               );
                             }).toList(),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Gender is required.";
+                              }
+                              return null;
+                            },
                             onChanged: (value) {
                               setState(() {
                                 selectedGender = value;
@@ -220,6 +257,15 @@ class _RegisterViewState extends State<RegisterView> {
                           text: "Contact Number",
                           textInputType:
                               const TextInputType.numberWithOptions(),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Contact Number is required.";
+                            }
+                            // if (!RegExp(r'^\d+$').hasMatch(value)) {
+                            //   return "Enter a valid contact number.";
+                            // }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormGlobal(
@@ -228,6 +274,12 @@ class _RegisterViewState extends State<RegisterView> {
                           obscure: false,
                           text: "Address",
                           textInputType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Address is required";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormGlobal(
@@ -236,6 +288,12 @@ class _RegisterViewState extends State<RegisterView> {
                           obscure: false,
                           text: "College Name",
                           textInputType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "College name is required";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         TextFormGlobal(
@@ -244,6 +302,12 @@ class _RegisterViewState extends State<RegisterView> {
                           obscure: false,
                           text: "Position",
                           textInputType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Position is required";
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     ),

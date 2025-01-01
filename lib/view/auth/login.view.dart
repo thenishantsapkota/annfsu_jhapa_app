@@ -23,6 +23,8 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   late final Errors errors;
   late final Authentication model;
   bool isLoading = false;
@@ -86,10 +88,6 @@ class _LoginViewState extends State<LoginView> {
           await pref.setString("accessToken", response.data.accessToken);
           await pref.setString("refreshToken", response.data.refreshToken);
           Get.off(() => const HomeView());
-        } else if (response is Errors) {
-          fingerprintAttempts++;
-          generateErrorSnackbar("Error",
-              "Authentication failed. Attempt $fingerprintAttempts/3.");
         } else {
           fingerprintAttempts++;
           generateErrorSnackbar("Error",
@@ -125,149 +123,165 @@ class _LoginViewState extends State<LoginView> {
                       padding: const EdgeInsets.all(15.0),
                       child: Container(
                         padding: const EdgeInsets.only(top: 100),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Center(
-                              child: Image(
-                                image: AssetImage("images/logo.png"),
-                                height: 150,
-                                width: 150,
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "ANNFSU JHAPA",
-                                style: TextStyle(
-                                    color: GlobalColors.mainColor,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Center(
-                              child: Text(
-                                "Login to your account",
-                                style: TextStyle(
-                                    color: GlobalColors.textColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormGlobal(
-                              controller: emailController,
-                              obscure: false,
-                              labelText: "Email",
-                              text: "Email",
-                              textInputType: TextInputType.emailAddress,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormGlobal(
-                              controller: passwordController,
-                              obscure: true,
-                              labelText: "Password",
-                              text: "Password",
-                              textInputType: TextInputType.text,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: ButtonGlobal(
-                                    text: "Login",
-                                    onTap: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-
-                                      try {
-                                        dynamic result = await AuthAPIService()
-                                            .login(emailController.text,
-                                                passwordController.text);
-                                        if (result is Authentication) {
-                                          model = result;
-                                          if (model.success) {
-                                            SharedPreferences pref =
-                                                await prefs;
-                                            await pref.setString("accessToken",
-                                                model.data.accessToken);
-                                            await pref.setString("refreshToken",
-                                                model.data.refreshToken);
-                                            await pref.setString("userPassword",
-                                                passwordController.text);
-                                            await pref.setString("userEmail",
-                                                emailController.text);
-                                            Get.off(() => const HomeView());
-                                            generateSuccessSnackbar(
-                                                "Success", model.message);
-                                          }
-                                        } else if (result is Errors) {
-                                          errors = result;
-                                          generateErrorSnackbar(
-                                              "Error", errors.message);
-                                          passwordController.text = "";
-                                        } else {
-                                          generateErrorSnackbar(
-                                              "Error", "Something went wrong!");
-                                        }
-                                      } catch (e) {
-                                        generateErrorSnackbar(
-                                            "Error", e.toString());
-                                      } finally {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                      }
-                                    },
-                                  ),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Center(
+                                child: Image(
+                                  image: AssetImage("images/logo.png"),
+                                  height: 150,
+                                  width: 150,
                                 ),
-                                const SizedBox(width: 10),
-                                if (isFingerprintAvailable)
-                                  ElevatedButton(
-                                    onPressed: _authenticateWithBiometrics,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: GlobalColors.mainColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16, horizontal: 5),
-                                      shadowColor:
-                                          Colors.black.withValues(alpha: 0.1),
-                                      elevation: 5,
-                                    ),
-                                    child: const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.fingerprint,
-                                          color: Colors.white,
-                                          size: 24,
-                                        ),
-                                      ],
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "ANNFSU JHAPA",
+                                  style: TextStyle(
+                                      color: GlobalColors.mainColor,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Center(
+                                child: Text(
+                                  "Login to your account",
+                                  style: TextStyle(
+                                      color: GlobalColors.textColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormGlobal(
+                                controller: emailController,
+                                obscure: false,
+                                labelText: "Email",
+                                text: "Email",
+                                textInputType: TextInputType.emailAddress,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Email is required.";
+                                  }
+                                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                      .hasMatch(value)) {
+                                    return "Enter a valid email address.";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              TextFormGlobal(
+                                controller: passwordController,
+                                obscure: true,
+                                labelText: "Password",
+                                text: "Password",
+                                textInputType: TextInputType.text,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Password is required.";
+                                  }
+                                  if (value.length < 6) {
+                                    return "Password must be at least 6 characters.";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 30),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: ButtonGlobal(
+                                      text: "Login",
+                                      onTap: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          setState(() {
+                                            isLoading = true;
+                                          });
+
+                                          try {
+                                            dynamic result =
+                                                await AuthAPIService().login(
+                                                    emailController.text,
+                                                    passwordController.text);
+                                            if (result is Authentication) {
+                                              model = result;
+                                              if (model.success) {
+                                                SharedPreferences pref =
+                                                    await prefs;
+                                                await pref.setString(
+                                                    "accessToken",
+                                                    model.data.accessToken);
+                                                await pref.setString(
+                                                    "refreshToken",
+                                                    model.data.refreshToken);
+                                                await pref.setString(
+                                                    "userPassword",
+                                                    passwordController.text);
+                                                await pref.setString(
+                                                    "userEmail",
+                                                    emailController.text);
+                                                Get.off(() => const HomeView());
+                                                generateSuccessSnackbar(
+                                                    "Success", model.message);
+                                              }
+                                            } else if (result is Errors) {
+                                              errors = result;
+                                              generateErrorSnackbar(
+                                                  "Error", errors.message);
+                                              passwordController.text = "";
+                                            } else {
+                                              generateErrorSnackbar("Error",
+                                                  "Something went wrong!");
+                                            }
+                                          } catch (e) {
+                                            generateErrorSnackbar(
+                                                "Error", e.toString());
+                                          } finally {
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                          }
+                                        }
+                                      },
                                     ),
                                   ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            if (environment == "development")
-                              TextButton(
+                                  const SizedBox(width: 10),
+                                  if (isFingerprintAvailable)
+                                    ElevatedButton(
+                                      onPressed: _authenticateWithBiometrics,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: GlobalColors.mainColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 16, horizontal: 5),
+                                        shadowColor: Colors.black.withAlpha(25),
+                                        elevation: 5,
+                                      ),
+                                      child: const Icon(
+                                        Icons.fingerprint,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              if (environment == "development")
+                                TextButton(
                                   onPressed: () {
                                     Get.to(() => const SetBaseUrlView());
                                   },
-                                  child: const Text("Set Base URL")),
-                          ],
+                                  child: const Text("Set Base URL"),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -301,7 +315,7 @@ class _LoginViewState extends State<LoginView> {
           ),
           if (isLoading)
             Container(
-              color: Colors.black.withValues(alpha: .5),
+              color: Colors.black.withAlpha(128),
               child: Center(
                 child: ModernSpinner(
                   color: GlobalColors.mainColor,

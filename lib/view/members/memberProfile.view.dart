@@ -12,6 +12,7 @@ class MemberProfileView extends StatefulWidget {
   final String name;
   final String position;
   final String phoneNumber;
+  final String gender;
   final String location;
   final String bloodGroup;
   final String organization;
@@ -26,6 +27,7 @@ class MemberProfileView extends StatefulWidget {
     required this.location,
     required this.bloodGroup,
     required this.organization,
+    required this.gender,
     this.profilePicture,
   }) : super(key: key);
 
@@ -136,7 +138,7 @@ class _MemberProfileViewState extends State<MemberProfileView> {
                             const SizedBox(width: 10),
                             Flexible(
                               child: Text(
-                                widget.position,
+                                widget.gender,
                                 style: const TextStyle(fontSize: 14),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -216,17 +218,36 @@ class _MemberProfileViewState extends State<MemberProfileView> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          insetPadding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
-          child: Center(
-            child: CachedNetworkImage(
-              imageUrl: widget.profilePicture != null &&
-                      widget.profilePicture!.isNotEmpty
-                  ? "${ApiConstants.baseUrl}${widget.profilePicture}"
-                  : "https://via.placeholder.com/150",
-              width: 250,
-              height: 250,
-              fit: BoxFit.cover,
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InteractiveViewer(
+                  boundaryMargin: const EdgeInsets.all(20.0),
+                  minScale: 0.5,
+                  maxScale: 5.0,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.profilePicture != null &&
+                            widget.profilePicture!.isNotEmpty
+                        ? "${ApiConstants.baseUrl}${widget.profilePicture}"
+                        : "https://via.placeholder.com/150",
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child:
+                      const Text("Close", style: TextStyle(color: Colors.red)),
+                ),
+              ],
             ),
           ),
         );

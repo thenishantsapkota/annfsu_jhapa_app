@@ -13,6 +13,7 @@ class ApiConstants {
   static String newsEndpoint = 'api/news/news/';
   static String songsEndpoint = 'api/news/songs';
   static String updateFCMTokenEndpoint = 'api/notification/update-fcm-token/';
+  static String teamEndpoint = 'api/our-team/';
 
   static Future<void> setBaseUrl(String url) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

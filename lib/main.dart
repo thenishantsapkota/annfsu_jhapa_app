@@ -1,7 +1,6 @@
 import 'package:annfsu_app/firebase_options.dart';
 import 'package:annfsu_app/helpers/notification.helpers.dart';
 import 'package:annfsu_app/l10n/app_localizations.dart';
-import 'package:annfsu_app/services/auth.service.dart';
 import 'package:annfsu_app/utils/constants.dart';
 import 'package:annfsu_app/view/splash.view.dart';
 import 'package:firebase_core/firebase_core.dart';
